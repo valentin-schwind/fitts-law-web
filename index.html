@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="author" content="Valentin Schwind" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/bootstrap-icons.css" />
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<meta property="og:site_name" content="Fitts Law 2D Task (ISO 9241-9)" />
+		<title>Fitts Law 2D Task (ISO 9241-9)</title>
+	</head>
+	<body>
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/jquery-cookie-plugin/jquery.cookie.js"></script>
+		<script src="js/html2pdf.bundle.min.js"></script>
+
+		<div id="mainFrame" class="vertical-center">
+			<div id="demographicsPage" class="whiteBox container rounded">
+				<form id="demographicForm" class="container mt-4">
+					<div class="row g-3 flex-column">
+						<!-- Title + Logo -->
+						<div class="row">
+							<div class="col mt-1 mb-1">
+								<div class="float-end">
+									<a href="https://hdm-stuttgart.de"><img src="../_img/hdmlogo.png" class="float-end mr-3" width="70px" alt="Logo"></a>
+									<a href="https://fra-uas.de"><img src="../_img/frankfurtlogo.png" class="float-end mr-3" width="140px" alt="Logo"></a>
+								</div>
+							</div>
+						</div>
+
+						<!-- 
+						Fitts' Law 2D Task (ISO 9241-9)
+
+						The Fitts' Law 2D task is used to evaluate human pointing performance in two-dimensional interfaces by measuring speed and accuracy of target acquisition. 
+						Originating from Fitts (1954), the model was later extended to 2D tasks by MacKenzie and Buxton (1992), and standardized in HCI evaluations through ISO 9241-9. 
+						Throughput (TP) in bits per second (bps) is used as a key performance metric to operationalize performance, combining movement time and spatial precision.
+
+						References:
+						- Fitts, P. M. (1954). The information capacity of the human motor system in controlling the amplitude of movement. Journal of Experimental Psychology, 47(6), 381–391. https://doi.org/10.1037/h0055392
+						- MacKenzie, I. S., & Buxton, W. (1992). Extending Fitts’ law to two-dimensional tasks. Proceedings of the SIGCHI Conference on Human Factors in Computing Systems (CHI ’92), 219–226. https://doi.org/10.1145/142750.142794
+						- Soukoreff, R. W., & MacKenzie, I. S. (2004). Towards a standard for pointing device evaluation, perspectives on 27 years of Fitts’ law research in HCI. International Journal of Human-Computer Studies, 61(6), 751–789. https://doi.org/10.1016/j.ijhcs.2004.09.001
+						- MacKenzie, I. S. (2015). Fitts' throughput and the remarkable case of touch-based target selection. Proceedings of the 17th International Conference on Human-Computer Interaction - HCII 2015 (LNCS 9170), pp. 238-249. Switzerland: Springer. doi: 10.1007/978-3-319-20916-6_23
+						-->
+
+						<h2 class="mb-1">Fitts Law 2D Task (ISO 9241-9)</h2>
+						<hr />
+
+						<div class="row mb-2">Please provide background information about your current environment, setup, emotions and personality. This helps us interpret your results.</div>
+						<hr />
+
+						<!-- Age (with +/-) -->
+						<div class="row align-items-center mb-2">
+							<label class="col-5 col-form-label">Your age</label>
+							<div class="col-7">
+								<div class="input-group">
+									<button class="btn btn-outline-secondary" type="button" onclick="adjustNumber('ageInput', -1, 18)">−</button>
+									<input type="text" inputmode="decimal" id="ageInput" name="age" class="form-control" value="" min="18" required />
+									<button class="btn btn-outline-secondary" type="button" onclick="adjustNumber('ageInput', 1)">+</button>
+								</div>
+							</div>
+						</div>
+
+						<!-- Gender -->
+						<div class="row align-items-center mb-2">
+							<label class="col-5 col-form-label">Your gender</label>
+							<div class="col-7">
+								<div class="radio-group">
+									<label class="radio-option"><input type="radio" name="gender" value="male" required /> male</label>
+									<label class="radio-option"><input type="radio" name="gender" value="female" /> female</label>
+									<label class="radio-option"><input type="radio" name="gender" value="diverse" /> diverse</label>
+									<label class="radio-option"><input type="radio" name="gender" value="prefer not to say" /> prefer not to say</label>
+								</div>
+							</div>
+						</div>
+
+						<!-- Nationality -->
+						<div class="row align-items-center mb-2">
+							<label for="nationality" class="col-5 col-form-label">Your nationality</label>
+							<div class="col-7">
+								<select class="form-select" id="nationality" name="nationality" required>
+									<option value="">Please select</option>
+									<!-- Options will be populated dynamically -->
+								</select>
+							</div>
+						</div>
+
+						<!-- Occupation -->
+						<div class="row align-items-center mb-2">
+							<label for="occupation" class="col-5 col-form-label">Your occupation</label>
+							<div class="col-7">
+								<select class="form-select" id="occupation" name="occupation" required>
+									<option value="">Please select</option>
+									<option>Management</option>
+									<option>Natural Sciences</option>
+									<option>Engineering</option>
+									<option>Health</option>
+									<option>Law and Order</option>
+									<option>Clerical</option>
+									<option>Spiritual</option>
+									<option>Social</option>
+									<option>Humanities</option>
+									<option>Services and Sales</option>
+									<option>Agriculture and Food</option>
+									<option>Craft</option>
+									<option>Military</option>
+									<option>Others</option>
+								</select>
+							</div>
+						</div>
+
+						<!-- Highest Academic Degree -->
+						<div class="row align-items-center mb-2">
+							<label for="degree" class="col-5 col-form-label">Your highest academic degree</label>
+							<div class="col-7">
+								<select class="form-select" id="degree" name="degree" required>
+									<option value="">Please select</option>
+									<option>none</option>
+									<option>primary school</option>
+									<option>secondary school</option>
+									<option>post-secondary school diploma / high school diploma</option>
+									<option>completed vocational training</option>
+									<option>completed university studies</option>
+									<option>doctoral degree</option>
+								</select>
+							</div>
+						</div>
+
+						<!-- Workplace -->
+						<div class="row align-items-center mb-2">
+							<label for="workplace" class="col-5 col-form-label">Your current location</label>
+							<div class="col-7">
+								<select class="form-select" id="workplace" name="workplace" required>
+									<option value="">Please select</option>
+									<option>at home/home office</option>
+									<option>in an office</option>
+									<option>library</option>
+									<option>public space (e.g., bus stop, train station, ...)</option>
+									<option>on a train</option>
+									<option>at a café</option>
+									<option>in a co-working space</option>
+									<option>outdoor area</option>
+									<option>other</option>
+								</select>
+							</div>
+						</div>
+
+						<!-- Noise Level -->
+						<div class="row align-items-center mb-2">
+							<label class="col-5 col-form-label">Your current surrounding perceived noise level</label>
+							<div class="col-7">
+								<div class="radio-group">
+									<label class="radio-option"><input type="radio" name="noise" value="silent" required /> silent</label>
+									<label class="radio-option"><input type="radio" name="noise" value="quiet" /> quiet</label>
+									<label class="radio-option"><input type="radio" name="noise" value="moderate" /> moderate</label>
+									<label class="radio-option"><input type="radio" name="noise" value="loud" /> loud</label>
+								</div>
+							</div>
+						</div>
+
+						<!-- Lighting Conditions -->
+						<div class="row align-items-center mb-2">
+							<label class="col-5 col-form-label">Your current perceived lighting conditions</label>
+							<div class="col-7">
+								<div class="radio-group">
+									<label class="radio-option"><input type="radio" name="lighting" value="bright (e.g., sunlight)" required /> bright (e.g., sunlight)</label>
+									<label class="radio-option"><input type="radio" name="lighting" value="normal" /> normal</label>
+									<label class="radio-option"><input type="radio" name="lighting" value="dim" /> dim</label>
+									<label class="radio-option"><input type="radio" name="lighting" value="dark" /> dark</label>
+								</div>
+							</div>
+						</div>
+
+						<!-- Posture -->
+						<div class="row align-items-center mb-2">
+							<label class="col-5 col-form-label">Your current posture</label>
+							<div class="col-7">
+								<div class="radio-group">
+									<label class="radio-option"><input type="radio" name="posture" value="standing" required /> standing</label>
+									<label class="radio-option"><input type="radio" name="posture" value="walking" /> walking</label>
+									<label class="radio-option"><input type="radio" name="posture" value="leaning" /> leaning</label>
+									<label class="radio-option"><input type="radio" name="posture" value="sitting" /> sitting</label>
+									<label class="radio-option"><input type="radio" name="posture" value="lying" /> lying</label>
+								</div>
+							</div>
+						</div>
+
+						<!-- Disability -->
+						<div class="row align-items-center mb-2">
+							<label class="col-5 col-form-label">Do you have any impairment that might affect your interaction with your device?</label>
+							<div class="col-7">
+								<div class="radio-group">
+									<label class="radio-option"><input type="radio" name="disability" value="yes" required /> yes</label>
+									<label class="radio-option"><input type="radio" name="disability" value="no" /> no</label>
+									<label class="radio-option"><input type="radio" name="disability" value="prefer not to say" /> prefer not to say</label>
+								</div>
+							</div>
+						</div>
+
+						<!-- Input Device -->
+						<div class="row align-items-center mb-2">
+							<label for="device" class="col-5 col-form-label">Which input device are you currently using?</label>
+							<div class="col-7">
+								<select class="form-select" id="device" name="device" required>
+									<option value="">Please select</option>
+									<option>desktop/laptop right-handed mouse</option>
+									<option>desktop/laptop left-handed mouse</option>
+									<option>desktop/laptop both-handed mouse</option>
+									<option>desktop/laptop trackpad</option>
+									<option>touchscreen</option>
+									<option>pen/tablet</option>
+									<option>trackball</option>
+									<option>other</option>
+								</select>
+							</div>
+						</div>
+
+						<!-- Displays -->
+						<div class="row align-items-center mb-2">
+							<label class="col-5 col-form-label">Number of displays</label>
+							<div class="col-7">
+								<div class="radio-group">
+									<label class="radio-option"><input type="radio" name="displays" value="1" required /> 1</label>
+									<label class="radio-option"><input type="radio" name="displays" value="2" /> 2</label>
+									<label class="radio-option"><input type="radio" name="displays" value="3 or more" /> 3 or more</label>
+								</div>
+							</div>
+						</div>
+
+						<!-- Fitts Familiar -->
+						<div class="row align-items-center mb-2">
+							<label class="col-5 col-form-label">Are you familiar with Fitts’ Law?</label>
+							<div class="col-7">
+								<div class="radio-group">
+									<label class="radio-option"><input type="radio" name="fittsFamiliar" value="yes" required /> yes</label>
+									<label class="radio-option"><input type="radio" name="fittsFamiliar" value="no" /> no</label>
+								</div>
+							</div>
+						</div>
+
+						<!-- Handedness -->
+						<div class="row align-items-center mb-2">
+							<label class="col-5 col-form-label">Handedness</label>
+							<div class="col-7">
+								<div class="radio-group">
+									<label class="radio-option"><input type="radio" name="handedness" value="right-handed" required /> right-handed</label>
+									<label class="radio-option"><input type="radio" name="handedness" value="left-handed" /> left-handed</label>
+									<label class="radio-option"><input type="radio" name="handedness" value="ambidextrous" /> ambidextrous</label>
+								</div>
+							</div>
+						</div>
+
+						<!-- Circumplex-Model (CPM): Russell, J. A. (1980). A circumplex model of affect. Journal of Personality and Social Psychology, 39(6), 1161–1178. https://doi.org/10.1037/h0077714 -->
+						<!-- Cognitive Load Theory (CLT): Sweller, J. (1988). Cognitive load during problem solving: Effects on learning. Cognitive Science, 12(2), 257–285. https://doi.org/10.1016/0364-0213(88)90023-7 -->
+						<!-- Job Demands–Resources (JD-R) Model: Bakker, A. B., & Demerouti, E. (2007). The Job Demands–Resources model: State of the art. Journal of Managerial Psychology, 22(3), 309–328. https://doi.org/10.1108/02683940710733115, https://10485378447908171212.googlegroups.com/attach/4f97711a28580/JD-R%20questionnaire%20Bakker%20100314.pdf -->
+						<!-- Yerkes-Dodson Law: Yerkes, R. M. & Dodson, J. D.: The relation of strength of stimulus to rapidity of habit-formation. Journal of Comparative Neurology and Psychology, 18 (1908) 459–482 -->
+						<!-- Operationalization of Yerkes-Dodson Law - State-Trait Anxiety Inventory (STAI): Spielberger, C.D., Gorsuch, R.L., Lushene, R.E. (1970). Manual for the State-Trait Anxiety Inventory (STAI). Palo Alto, CA: Consulting Psychologists Press.-->
+						<!-- Short-Version of STAI: Short Version: Marteau, T. M., & Bekker, H. (1992). The development of a six-item short-form of the state scale of the Spielberger State—Trait Anxiety Inventory (STAI). Br. J. Clin. Psychol., 31(3), 301–306. doi: 10.1111/j.2044-8260.1992.tb00997.x-->
+						<div id="likert-items-emotions"></div>
+						<!-- Items of the CPM, CLT, JD-R and STAI Questionnaire -->
+						<hr />
+
+						<!-- BFI10: Rammstedt, B., & John, O. P. (2007). Measuring personality in one minute or less: A 10-item short version of the Big Five Inventory in English and German. Journal of Research in Personality, 41(1), 203–212-->
+						<!-- Pleasure, Arousal and Dominance (PAD): Mehrabian, A., & Russell, J. A. (1974). An approach to environmental psychology. The MIT Press.-->
+						<!-- and-->
+						<!-- Five Factor Model FFM/OCEAN: The Big Five Trait taxonomy: History, measurement, and theoretical perspectives. (2025, April 30). Retrieved from https://psycnet.apa.org/record/1999-04371-004 -->
+						<!-- Mapping of OCEAN to PAD :Zhao, Y., Xie, D., Zhou, R., Wang, N., & Yang, B. (2022). Evaluating Users’ Emotional Experience in Mobile Libraries: An Emotional Model Based on the Pleasure-Arousal-Dominance Emotion Model and the Five Factor Model. Front. Psychol., 13, 942198. doi: 10.3389/fpsyg.2022.942198 -->
+						<div id="bfi10"></div>
+						<!-- Items of the BFI-10 Questionnaire -->
+						<hr />
+
+						<!-- Informed Consent and Submit -->
+						<div class="row align-items-center mt-3">
+							<!-- Checkbox + Label -->
+							<div class="col-10 text-start">
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="termsCheckbox" />
+									<label class="form-check-label" for="termsCheckbox" style="display: inline">
+										By checking this box, you agree to the use of essential cookies for the experiment and agree to the
+										<!-- give the link its own ID so we can hook into it --> </label
+									><a href="#" id="termsLink">Informed Consent</a>
+								</div>
+							</div>
+
+							<!-- Start Button -->
+							<div class="col text-end">
+								<button type="submit" class="btn btn-primary" id="startFormBtn" disabled>Start Experiment</button>
+							</div>
+						</div>
+
+						<!-- the “accordion” panel, hidden by default -->
+						<div id="termsAccordion" class="mt-3" style="display: none">
+							<div class="card">
+								<div class="card-body">
+									<div class="card-body"></div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Footer -->
+						<div class="row mt-2 mb-2" id="results"></div>
+						<div class="row mt-2 mb-2 itemRow" id="githublink">
+							<div class="col text-center">
+								<a href="https://github.com/valentin-schwind/fitt-law-web" target="_blank">Source Code on GitHub</a>, Any questions? <a href="mailto:valentin.schwind@fb2.fra-uas.de">Write us</a>!
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<!-- Task UI -->
+		<div id="taskUI">
+			<div id="canvasContainer">
+				<canvas id="taskCanvas" width="800" height="800"></canvas>
+				<div id="overlay">
+					<div id="taskBox">
+						<p id="taskDescription">When you click “Start,” blue targets will begin to appear one at a time. Click each target as quickly and accurately as you can!</p>
+						<div id="countdown"></div>
+						<button id="startBtn" class="btn btn-primary">Start</button>
+					</div>
+				</div>
+
+				<div id="output"></div>
+			</div>
+		</div>
+
+		<script>
+			$(function () {
+				// Enable debug mode (e.g., for testing purposes)
+				// Uncomment the line below to clear subjectCode cookie during debug sessions
+				const debug = true;
+				// if(debug) $.removeCookie('subjectCode', { path: '/' });
+
+				let scaleFactor = 1;
+
+				function resizeCanvas() {
+					const canvas = document.getElementById("taskCanvas");
+					const container = document.getElementById("canvasContainer");
+
+					// Größe des Containers berechnen (quadratisch)
+					const size = Math.min(window.innerWidth, window.innerHeight, 800);
+
+					container.style.width = size + "px";
+					container.style.height = size + "px";
+					canvas.width = size;
+					canvas.height = size;
+
+					scaleFactor = size / 800;
+				}
+				resizeCanvas();
+
+				function getDeviceType() {
+					const userAgent = navigator.userAgent;
+					const width = window.innerWidth;
+					if (/Mobi|Android/i.test(userAgent) || width <= 768) {
+						return "m"; // mobile
+					} else if (/Tablet|iPad/i.test(userAgent) || (width > 768 && width <= 1024)) {
+						return "t"; // tablet
+					} else {
+						return "d"; // desktop
+					}
+				}
+				let deviceType = getDeviceType();
+				console.log(deviceType);
+
+				$(window).on("resize", resizeCanvas);
+
+				// Get canvas and 2D drawing context for rendering the Fitts' Law task
+				const canvas = $("#taskCanvas")[0];
+				const ctx = canvas.getContext("2d");
+
+				// Initially hide task-related UI elements until the experiment begins
+				$("#taskUI").hide();
+				$("#taskCanvas").hide();
+				$("#output").hide();
+
+				// Define distances (amplitudes) and target sizes (widths) for the Fitts' Law trials
+				// Use simplified set for quick testing
+				const baseAmplitudes = (debug) ? [400, 600] : [100, 200, 400, 600];
+				const baseWidths = (debug) ? [40, 80] : [20, 40, 60, 80]
+				//const baseAmplitudes = (debug) ? [100, 200, 400, 600] : [100, 200, 400, 600];
+				//const baseWidths = (debug) ? [20, 40, 60, 80] : [20, 40, 60, 80]
+
+				// Define number of repetitions per condition and total number of trials per condition pair
+				const repetitions = 1;
+				const numberOfTrials = 15; // Should be an odd number to balance center direction
+
+				// Initialize trial variables and logs
+				let trials = [], // List of all generated trial configurations
+					currentTrial = 0, // Index of the current trial
+					startTime = 0, // Timestamp when the current trial started
+					taskStartTime = 0, // Timestamp when the overall task started
+					clickLog = [], // Log of click events
+					movementLog = [], // Log of mouse movements during each trial
+					expCount = parseInt($.cookie("expCount") || "0", 10); // Track how many experiments the user has done
+
+				// List of emotional state items for post-task self-reporting
+				// prettier-ignore
+				const emotion_items = [ "fatigued", "relaxed", "content", "worried", "stressed", "tense", "upset", "calm", "focused", "frustrated", "motivated", "secure", "bored", 
+					"confident", "challenged", "engaged", "anxious", "energized", "confused", "distracted", "hungry", ];
+
+				// Response scale labels for emotion items (Likert scale)
+				const labels = ["Strongly disagree", "Disagree", "Neither agree nor disagree", "Agree", "Strongly agree"];
+
+				// Populate the emotion Likert scale using predefined labels and items
+
+				// Append header row with Likert scale labels (rotated on mobile for space)
+				const $l = $("#likert-items-emotions").append(`
+					<div class="row mb-2 text-center">
+						<div class="col-4 col-form-label text-start"></div>
+						${labels.map((l) => `<div class="col likert-header-mobile-rotate">${l}</div>`).join("")}
+					</div>
+				`);
+
+				// Append a row for each emotion item with 5 radio buttons (Likert scale: 1–5)
+				emotion_items.forEach((name) =>
+					$l.append(`
+						<div class="row align-items-center text-center">
+							<label class="col-4 col-form-label text-start small-likert-padding">${name}</label>
+							${[1, 2, 3, 4, 5].map((v) => `<div class="col"><input type="radio" name="${name}" value="${v}" required></div>`).join("")}
+						</div>
+					`)
+				);
+
+				// Define BFI-10 items (short Big Five personality inventory)
+				const bfi_items = [
+					["bfi10-1-reserved", "... is reserved."],
+					["bfi10-2-trusting", "... is generally trusting."],
+					["bfi10-3-lazy", "... tends to be lazy."],
+					["bfi10-4-relaxed", "... is relaxed, handles stress well."],
+					["bfi10-5-artistic", "... has few artistic interests."],
+					["bfi10-6-socialable", "... who is outgoing, sociable."],
+					["bfi10-7-findfault", "... tends to find fault with others."],
+					["bfi10-8-thoroughjob", "... does a thorough job."],
+					["bfi10-9-nervous", "... gets nervous easily."],
+					["bfi10-10-imagination", "... has an active imagination."],
+				];
+
+				// Append BFI-10 instruction and headers
+				$("#bfi10").append(`
+					<div class="row mb-2 text-center">
+						<div class="col col-form-label text-start border-bottom">
+							To which extent do you agree with the statement that <strong>you see yourself as someone who ...</strong>
+						</div>
+					</div>
+					<div class="row mb-2 text-center">
+						<div class="col-4 col-form-label text-start"></div>
+						${labels.map((s) => `<div class="col likert-header-mobile-rotate">${s}</div>`).join("")}
+					</div> 
+
+					${bfi_items
+						.map(
+							([n, t]) =>
+								`<div class="row align-items-center text-center">
+									<label class="col-4 col-form-label text-start small-likert-padding">${t}</label>
+									${[1, 2, 3, 4, 5].map((v) => `<div class="col"><input type="radio" name="${n}" value="${v}" required></div>`).join("")}
+								</div>`
+						)
+						.join("")}
+				`);
+
+				// Autofill the form with test data when debugging is enabled
+				function autoFill() {
+					if (!debug) return;
+
+					// Basic demographic fields
+					$("#ageInput").val(30);
+					$("[name=gender][value=male]").prop("checked", true);
+					$("#nationality option:eq(1)").prop("selected", true);
+					$("#occupation").val("Engineering");
+					$("#degree").val("completed university studies");
+					$("#workplace").val("at home/home office");
+
+					// Environmental and device-related inputs
+					$("[name=noise][value=quiet]").prop("checked", true);
+					$("[name=lighting][value=normal]").prop("checked", true);
+					$("[name=posture][value=sitting]").prop("checked", true);
+					$("[name=disability][value=no]").prop("checked", true);
+					$("#device").val("desktop/laptop right-handed mouse");
+					$("[name=displays][value=1]").prop("checked", true);
+
+					// Prior experience and handedness
+					$("[name=fittsFamiliar][value=yes]").prop("checked", true);
+					$("[name=handedness][value=right-handed]").prop("checked", true);
+
+					// Set all emotion items to neutral value (3)
+					// prettier-ignore
+					let emotionItems = [ "fatigued", "relaxed", "content", "worried", "stressed", "tense", "upset", "calm", "focused", "frustrated", "motivated", 
+						"secure", "bored", "confident", "challenged", "engaged", "anxious", "energized", "confused", "distracted", "hungry", ];
+					emotionItems.forEach((item) => {
+						$(`[name=${item}][value=3]`).prop("checked", true);
+					});
+
+					// Set all BFI-10 personality items to neutral value (3)
+					let bfiItems = ["bfi10-1-reserved", "bfi10-2-trusting", "bfi10-3-lazy", "bfi10-4-relaxed", "bfi10-5-artistic", "bfi10-6-socialable", "bfi10-7-findfault", "bfi10-8-thoroughjob", "bfi10-9-nervous", "bfi10-10-imagination"];
+					bfiItems.forEach((item) => {
+						$(`[name=${item}][value=3]`).prop("checked", true);
+					});
+
+					// Agree to terms and trigger validation
+					$("#termsCheckbox").prop("checked", true).trigger("change");
+				}
+
+				// Load terms of participation via AJAX into accordion
+				$("#termsAccordion .card-body").load("terms.html");
+
+				// Load country list for nationality selection from external file
+				$.get("country.txt", (data) => {
+					data.trim()
+						.split("\n")
+						.forEach((country) => {
+							$("#nationality").append(`<option>${country}</option>`);
+						});
+					autoFill(); // Autofill form after loading countries
+				}).fail(() => console.error("Error fetching country list"));
+
+				// Enable start button only if terms checkbox is checked
+				$("#termsCheckbox").on("change", function () {
+					$("#startFormBtn").prop("disabled", !this.checked);
+				});
+
+				// Toggle terms visibility on link click
+				$("#termsLink").on("click", function (e) {
+					e.preventDefault();
+					$("#termsAccordion").slideToggle();
+				});
+
+				// adjustNumber: Helper function to increment/decrement numeric inputs with limits
+				window.adjustNumber = (id, step, max = null) => {
+					const $i = $("#" + id);
+					let v = parseInt($i.val() || 0, 10);
+					const min = parseInt($i.attr("min") || 0, 10);
+					const m = max !== null ? max : parseInt($i.attr("max") || 100, 10);
+					$i.val(Math.min(Math.max(v + step, min), m));
+				};
+
+				// collectBrowserInfo: Collects screen, system, and browser properties
+				function collectBrowserInfo() {
+					const info = {
+						screenWidth: window.screen.width,
+						screenHeight: window.screen.height,
+						screenAvailWidth: window.screen.availWidth,
+						screenAvailHeight: window.screen.availHeight,
+						devicePixelRatio: window.devicePixelRatio,
+						language: navigator.language,
+						platform: navigator.platform,
+						userAgent: navigator.userAgent,
+						deviceType: deviceType,
+						touchSupport: "ontouchstart" in window,
+					};
+					// Add memory info if available (only in Chrome-based browsers)
+					if (performance && performance.memory) {
+						info.jsHeapSizeLimit = performance.memory.jsHeapSizeLimit;
+						info.totalJSHeapSize = performance.memory.totalJSHeapSize;
+						info.usedJSHeapSize = performance.memory.usedJSHeapSize;
+					}
+					return info;
+				}
+
+				// generateSubjectId: Creates a pseudo-unique user ID based on the current date and a hex string
+				function generateSubjectId() {
+					const hex = Array.from({ length: 6 }, () => Math.floor(Math.random() * 16).toString(16)).join("");
+					const today = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+					return `user-${today}-${hex}`;
+				}
+
+				// Initializes the full list of randomized Fitts' Law trials
+				function initTrials() {
+					trials = [];
+					const conditions = [];
+
+					// Create all combinations of amplitude × width, repeated N times
+					for (let r = 0; r < repetitions; r++) {
+						baseAmplitudes.forEach((A) =>
+							baseWidths.forEach((W) => {
+								const scaledA = A * scaleFactor;
+								const scaledW = W * scaleFactor;
+								conditions.push({ A: scaledA, W: scaledW });
+							})
+						);
+					}
+					shuffle(conditions); // Randomize trial order
+
+					// For each condition, generate a list of targets and individual trial steps
+					conditions.forEach(({ A, W }) => {
+						const targets = generateAlternatingTargets(numberOfTrials, A);
+						for (let i = 0; i < targets.length; i++) {
+							trials.push({ A, W, from: i, to: (i + 1) % targets.length, targets });
+						}
+					});
+				}
+
+				// Places targets in a circular alternating pattern based on amplitude
+				function generateAlternatingTargets(n, A) {
+					const res = [],
+						step = 360 / n / 2 + 180, // Ensure alternation (180° flip between steps)
+						cx = canvas.width / 2,
+						cy = canvas.height / 2;
+
+					for (let i = 0; i < n; i++) {
+						const rad = (i * step + 180) * (Math.PI / 180); // Convert to radians
+						res.push({
+							x: cx + (Math.cos(rad) * A) / 2,
+							y: cy + (Math.sin(rad) * A) / 2,
+						});
+					}
+					return res;
+				}
+
+				// Renders all targets on canvas, highlighting the active one
+				function drawTargets(targets, active, W) {
+					ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear previous frame
+					targets.forEach((t, i) => {
+						ctx.beginPath();
+						ctx.arc(t.x, t.y, W / 2, 0, 2 * Math.PI);
+						ctx.fillStyle = i === active ? "blue" : "rgba(0, 0, 0, 0.15)";
+						ctx.fill();
+						ctx.stroke();
+					});
+				}
+
+				// Start Fitts' Law
+				function runTrial() {
+					if (currentTrial >= trials.length) return showResults();
+					drawTargets(trials[currentTrial].targets, trials[currentTrial].to, trials[currentTrial].W);
+					startTime = performance.now();
+				}
+
+				// Start Button
+				$("#startBtn").on("click", () => {
+					$("#startBtn, #taskDescription").hide();
+					$("#taskCanvas").show();
+					$("#taskUI").show();
+					let count = 3;
+					expCount = +($.cookie("expCount") || 0);
+					$("#countdown").text(count);
+					const timer = setInterval(() => {
+						if (--count > 0) {
+							$("#countdown").text(count);
+						} else {
+							clearInterval(timer);
+							$("#countdown").empty();
+							$("#overlay").hide();
+							initTrials();
+							currentTrial = 0;
+							log = [];
+							taskStartTime = performance.now();
+							runTrial();
+						}
+					}, 1000);
+				});
+
+				// Compute everything
+				// showResults: Calculates performance metrics, logs results, and handles result submission and confirmation
+				function showResults() {
+					// Group click data by condition key "A-W"
+					const byCond = {};
+					clickLog.forEach((e) => {
+						const k = `${e.A}-${e.W}`;
+						(byCond[k] = byCond[k] || []).push(e);
+					});
+
+					const condStats = [];
+					let totalHits = 0,
+						totalErrors = 0;
+
+					// Compute condition-wise statistics
+					for (const [key, arr] of Object.entries(byCond)) {
+						const [A, W] = key.split("-").map(Number);
+						const hits = arr.filter((e) => e.hit),
+							errors = arr.length - hits.length;
+						totalHits += hits.length;
+						totalErrors += errors;
+
+						const dxs = [],
+							aes = [],
+							times = [];
+						let prevDx = 0;
+
+						// For each hit, compute dx, Ae (effective amplitude), and record MT
+						hits.forEach((e) => {
+							const a = Math.hypot(e.fromX - e.toX, e.fromY - e.toY),
+								b = Math.hypot(e.clickX - e.toX, e.clickY - e.toY),
+								c = Math.hypot(e.fromX - e.clickX, e.fromY - e.clickY),
+								dx = (c * c - b * b - a * a) / (2 * a),
+								ae = a + dx + prevDx;
+							prevDx = dx;
+							dxs.push(dx);
+							aes.push(ae);
+							times.push(e.time);
+						});
+
+						// Compute key throughput metrics
+						const mean = (arr) => arr.reduce((s, v) => s + v, 0) / (arr.length || 1),
+							Ae = mean(aes),
+							meanDx = mean(dxs),
+							sdDx = Math.sqrt(dxs.reduce((s, v) => s + (v - meanDx) ** 2, 0) / (dxs.length || 1)),
+							We = 4.133 * sdDx,
+							MT = mean(times) / 1000,
+							IDe = Math.log2(Ae / We + 1),
+							TP = IDe / MT;
+
+						condStats.push({ A, W, Ae, We, IDe, MTsec: MT, TP, hits: hits.length, errors });
+					}
+
+					// Compute overall means
+					const mean = (arr) => arr.reduce((s, v) => s + v, 0) / (arr.length || 1),
+						meanMTms = mean(condStats.map((c) => c.MTsec * 1000)),
+						meanTP = mean(condStats.map((c) => c.TP)),
+						errorRate = (100 * totalErrors) / (totalHits + totalErrors);
+
+					// Linear regression: MT = a + b * ID
+					const xs = condStats.map((c) => c.IDe),
+						ys = condStats.map((c) => c.MTsec * 1000),
+						n = xs.length,
+						sum = (a) => a.reduce((s, v) => s + v, 0),
+						sumX = sum(xs),
+						sumY = sum(ys),
+						sumXX = sum(xs.map((x) => x * x)),
+						sumYY = sum(ys.map((y) => y * y)),
+						sumXY = sum(xs.map((x, i) => x * ys[i])),
+						denom = n * sumXX - sumX ** 2,
+						b = (n * sumXY - sumX * sumY) / denom,
+						a = (sumY - b * sumX) / n,
+						r2 = (n * sumXY - sumX * sumY) ** 2 / (denom * (n * sumYY - sumY ** 2));
+
+					const timestamp = new Date().toISOString();
+
+					// Console output of participant info, click logs, and movement traces
+					console.group("Subject Demographics");
+					console.table([{ ...demographicData, timestamp, expCount }]);
+					console.groupEnd();
+
+					console.group("Trial Log");
+					// prettier-ignore
+					console.table( clickLog.map((e) => ({ subjectCode: demographicData.subjectCode, timestamp: e.timestamp, expCount, A: e.A, W: e.W, IoD: +Math.log2(e.A / e.W + 1).toFixed(2), 
+						fromX: e.fromX, fromY: e.fromY, toX: e.toX, toY: e.toY, clickX: e.clickX, clickY: e.clickY, time: e.time, hit: e.hit, deviceType: deviceType })) );
+					console.groupEnd();
+
+					console.group("Detailed Movement Trace");
+					// prettier-ignore
+					console.table( movementLog.map((e) => ({ subjectCode: e.subjectCode, timestamp: e.timestamp, expCount: e.expCount, A: e.A, W: e.W, IoD: e.IoD, fromX: e.fromX, fromY: e.fromY, 
+						toX: e.toX, toY: e.toY, pathTime: e.pathTime, click: e.click, hit: e.hit, mouseX: e.mouseX, mouseY: e.mouseY, deviceType: deviceType })) );
+					console.groupEnd();
+
+					// Rating based on mean throughput
+					// prettier-ignore
+					const ratingText =
+							  meanTP > 6 ? "🏆 Exceptional! You're operating at expert precision and speed."
+							: meanTP > 5 ? "🥇 Excellent! Highly efficient performance."
+							: meanTP > 4 ? "🥈 Good! You show solid motor control."
+							: meanTP > 3 ? "🥉 Fair. There's room for improvement."
+							: "🛠️ Needs improvement. Keep practicing!";
+
+					// Compile summary stats
+					const overallStats = {
+						subjectCode: demographicData.subjectCode,
+						timestamp,
+						expCount,
+						"mean MT (ms)": +meanMTms.toFixed(3),
+						"error rate (%)": +errorRate.toFixed(3),
+						"mean TP (bit/s)": +meanTP.toFixed(3),
+						"regression a (ms)": +a.toFixed(3),
+						"regression b (ms/bit)": +b.toFixed(3),
+						"R²": +r2.toFixed(3),
+						rating: ratingText,
+						deviceType: deviceType,
+					};
+
+					console.group("Overall Statistics");
+					console.table([overallStats]);
+					console.groupEnd();
+
+					// Format results for on-screen display
+					// prettier-ignore
+					let txt = `== RESULTS ==\nSubject: ${demographicData.subjectCode}\n\n` + [ ["A", 4], ["W", 4], ["Ae(px)", 7], ["We(px)", 7], ["ID_e", 5], ["MT(ms)", 7], ["TP(b/s)", 7], ["Hits", 4], ["Errs", 4], ] .map(([label, width]) => label.padStart(width)) .join(" ") + "\n";
+
+					condStats.forEach((c) => {
+						txt +=
+							[
+								c.A.toFixed(1).padStart(4),
+								c.W.toFixed(1).padStart(4),
+								c.Ae.toFixed(1).padStart(7),
+								c.We.toFixed(1).padStart(7),
+								c.IDe.toFixed(2).padStart(5),
+								(c.MTsec * 1000).toFixed(1).padStart(7),
+								c.TP.toFixed(2).padStart(7),
+								c.hits.toString().padStart(4),
+								c.errors.toString().padStart(4),
+							].join(" ") + "\n";
+					});
+
+					txt +=
+						`\nOverall mean MT: ${meanMTms.toFixed(1)} ms\n` +
+						`Overall error rate: ${errorRate.toFixed(1)} %\n` +
+						`Mean throughput: ${meanTP.toFixed(2)} bit/s\n` +
+						`Regression MT = a + b·ID_e\n  a = ${a.toFixed(2)} ms,  b = ${b.toFixed(2)} ms/bit (R² = ${r2.toFixed(3)})\n\n` +
+						`${ratingText}\n`;
+
+					// Show results and prepare data for submission
+					$("#taskCanvas").hide();
+					$("#output").show().text("Please wait...");
+
+					const payload = {
+						demographicData: window.demographicData || {},
+						clickLog: clickLog || [],
+						movementLog: movementLog || [],
+						overallStats: overallStats || {},
+					};
+
+					// Submit result data to server
+					$.ajax({
+						url: "php/submit.php",
+						method: "POST",
+						contentType: "application/json",
+						dataType: "json",
+						data: JSON.stringify(payload),
+						success: (resp, _, jqXhr) => {
+							console.log("Full response:", resp);
+							console.log("raw text =", jqXhr.responseText);
+							if (!resp.success) console.error("Save error:", resp.error || "(no error message sent)");
+
+							// Show results and offer restart + certificate download
+							$("#output")
+								.show()
+								.text(txt)
+								.append('<button id="restartBtn" class="btn btn-secondary mt-3">Restart</button>' + '<br /><button id="confirmationBtn" class="btn btn-secondary mt-1">Download Participation Confirmation</button>');
+
+							$("#restartBtn").on("click", () => {
+								expCount += 1;
+								$.cookie("expCount", expCount, { path: "/", expires: 7 });
+								window.demographicData.expCount = expCount;
+								$("#output, #taskCanvas", "#taskUI").hide();
+								$("#taskUI").hide();
+								$("#overlay, #mainFrame, #taskDescription, #startBtn").show();
+								currentTrial = 0;
+								log = [];
+								taskStartTime = performance.now();
+							});
+
+							// Generate and download participation certificate as PDF
+							$("#confirmationBtn").on("click", () => {
+								const participantName = prompt("Please enter your full name for the participation certificate:");
+								if (!participantName) {
+									alert("Name is required to generate the certificate.");
+									return;
+								}
+
+								const certificateContent = `
+									<div style="font-family: Arial; width: 100%; padding: 2cm;">
+										<img src="img/frankfurtlogo.png" style="float:right;" width="120px" />
+										<h2>Confirmation of Participation</h2>
+										<p>This certifies that</p>
+										<h3>${participantName}</h3>
+										<p>has participated in the online study on Fitts' Law conducted at the</p>
+										<p><strong>Frankfurt University of Applied Sciences</strong></p>
+										<p>The study was supervised by Prof. Dr. Valentin Schwind and lasted approximately 15–20 minutes.</p>
+										<p>Thank you for your contribution to our research in Human-Computer Interaction.</p>
+									</div>
+								`;
+
+								const container = document.createElement("div");
+								container.innerHTML = certificateContent;
+								document.body.appendChild(container);
+
+								html2pdf()
+									.set({
+										margin: 1,
+										filename: `Participation-Certificate-${participantName.replace(/\s+/g, "_")}.pdf`,
+										image: { type: "jpeg", quality: 1 },
+										html2canvas: { scale: 2 },
+										jsPDF: { unit: "cm", format: "A4", orientation: "portrait" },
+									})
+									.from(container)
+									.save()
+									.then(() => {
+										document.body.removeChild(container);
+										$("#confirmationBtn").remove(); // Remove after download
+									});
+							});
+						},
+						error: (xhr, status, err) => {
+							console.error("AJAX error", status, err, xhr.responseText);
+						},
+					});
+				}
+
+				// Randomize arrays
+				function shuffle(a) {
+					for (let i = a.length - 1; i > 0; i--) {
+						const j = Math.floor(Math.random() * (i + 1));
+						[a[i], a[j]] = [a[j], a[i]];
+					}
+				}
+
+				// Form submit → start experiment
+				$("#mainFrame").on("submit", (e) => {
+					e.preventDefault();
+					let subjectCode = $.cookie("subjectCode") || generateSubjectId();
+					$.cookie("subjectCode", subjectCode, { path: "/", expires: 7 });
+
+					const get = (name) => $(`[name=${name}]:checked`).val();
+					window.demographicData = {
+						subjectCode,
+						expCount,
+						age: $("#ageInput").val(),
+						gender: get("gender"),
+						nationality: $("#nationality").val(),
+						occupation: $("#occupation").val(),
+						degree: $("#degree").val(),
+						workplace: $("#workplace").val(),
+						noise: get("noise"),
+						lighting: get("lighting"),
+						posture: get("posture"),
+						disability: get("disability"),
+						device: $("#device").val(),
+						displays: get("displays"),
+						fittsFamiliar: get("fittsFamiliar"),
+						handedness: get("handedness"),
+						fatigued: get("fatigued"),
+						relaxed: get("relaxed"),
+						content: get("content"),
+						worried: get("worried"),
+						stressed: get("stressed"),
+						tense: get("tense"),
+						upset: get("upset"),
+						calm: get("calm"),
+						focused: get("focused"),
+						frustrated: get("frustrated"),
+						motivated: get("motivated"),
+						secure: get("secure"),
+						bored: get("bored"),
+						confident: get("confident"),
+						challenged: get("challenged"),
+						engaged: get("engaged"),
+						anxious: get("anxious"),
+						energized: get("energized"),
+						confused: get("confused"),
+						distracted: get("distracted"),
+						hungry: get("hungry"),
+						bfi_reserved: get("bfi10-1-reserved"),
+						bfi_trusting: get("bfi10-2-trusting"),
+						bfi_lazy: get("bfi10-3-lazy"),
+						bfi_relaxed: get("bfi10-4-relaxed"),
+						bfi_artistic: get("bfi10-5-artistic"),
+						bfi_sociable: get("bfi10-6-socialable"),
+						bfi_find_fault: get("bfi10-7-findfault"),
+						bfi_thorough_job: get("bfi10-8-thoroughjob"),
+						bfi_nervous: get("bfi10-9-nervous"),
+						bfi_imagination: get("bfi10-10-imagination"),
+						...collectBrowserInfo(),
+					};
+
+					$("#mainFrame").hide();
+					$("#taskUI").show();
+				});
+
+				// Task Click handler
+				$("#taskCanvas").on("mousedown", function (e) {
+					if (currentTrial >= trials.length) return;
+					const tr = trials[currentTrial],
+						r = this.getBoundingClientRect(),
+						x = +(e.clientX - r.left).toFixed(3),
+						y = +(e.clientY - r.top).toFixed(3),
+						t = +(performance.now() - startTime).toFixed(3),
+						hit = Math.hypot(x - tr.targets[tr.to].x, y - tr.targets[tr.to].y) <= tr.W / 2,
+						A = +tr.A.toFixed(3),
+						W = +tr.W.toFixed(3),
+						IoD = +Math.log2(A / W + 1).toFixed(2),
+						fx = +tr.targets[tr.from].x.toFixed(3),
+						fy = +tr.targets[tr.from].y.toFixed(3),
+						tx = +tr.targets[tr.to].x.toFixed(3),
+						ty = +tr.targets[tr.to].y.toFixed(3),
+						time = new Date().toISOString();
+
+					const entry = { subjectCode: demographicData.subjectCode, timestamp: time, expCount, A, W, IoD, fromX: fx, fromY: fy, toX: tx, toY: ty, clickX: x, clickY: y, time: t, hit, deviceType: deviceType };
+					clickLog.push(entry);
+
+					movementLog.push({ ...entry, pathTime: t, click: true, mouseX: x, mouseY: y });
+
+					if (hit) currentTrial++;
+					runTrial();
+				});
+
+				// Task Movement handler
+				let lastLoggedTime = 0;
+				const sampleInterval = 10; // in ms
+
+				$("#taskCanvas").on("mousemove", function (e) {
+					if (currentTrial >= trials.length) return;
+
+					const now = performance.now();
+					if (now - lastLoggedTime < sampleInterval) return; // Sample Throttling
+
+					lastLoggedTime = now;
+
+					const tr = trials[currentTrial],
+						r = this.getBoundingClientRect(),
+						x = +(e.clientX - r.left).toFixed(3),
+						y = +(e.clientY - r.top).toFixed(3),
+						t = +(performance.now() - startTime).toFixed(3),
+						A = +tr.A.toFixed(3),
+						W = +tr.W.toFixed(3),
+						IoD = +Math.log2(A / W + 1).toFixed(3),
+						fx = +tr.targets[tr.from].x.toFixed(3),
+						fy = +tr.targets[tr.from].y.toFixed(3),
+						tx = +tr.targets[tr.to].x.toFixed(3),
+						ty = +tr.targets[tr.to].y.toFixed(3);
+
+					// prettier-ignore
+					movementLog.push({
+						subjectCode: demographicData.subjectCode, timestamp: new Date().toISOString(), expCount, A, W, IoD, fromX: fx, 
+						fromY: fy, toX: tx, toY: ty, pathTime: t, click: e.buttons > 0, hit: false, mouseX: x, mouseY: y, deviceType: deviceType,
+					});
+				});
+			});
+		</script>
+	</body>
+</html>
